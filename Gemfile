@@ -7,3 +7,4 @@ gem "scraperwiki", git: "https://github.com/openaustralia/scraperwiki-ruby.git",
 
 gem "vcr"
 gem "webmock"
+gem "timecop"
