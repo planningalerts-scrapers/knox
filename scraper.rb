@@ -1,16 +1,16 @@
-require 'scraperwiki'
-require 'mechanize'
-require 'date'
+require "epathway_scraper"
 
 base_url = "https://eservices.knox.vic.gov.au/ePathway/Production/Web/generalenquiry/"
 url = "#{base_url}enquirylists.aspx"
 
-agent = Mechanize.new
+scraper = EpathwayScraper::Scraper.new(
+  "https://eservices.knox.vic.gov.au/ePathway/Production"
+)
 
-first_page = agent.get url
-first_page_form = first_page.forms.first
-first_page_form.radiobuttons.first.click
-summary_page = first_page_form.click_button
+
+agent = scraper.agent
+
+summary_page = scraper.pick_type_of_search(:advertising)
 
 page_number = 2 # The next page number to move onto (we've already got page 1)
 
