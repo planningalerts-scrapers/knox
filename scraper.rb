@@ -17,21 +17,18 @@ page_number = 2 # The next page number to move onto (we've already got page 1)
 while summary_page
   table = summary_page.root.at_css('.ContentPanel')
 
-
-  headers = table.css('th').collect { |th| th.inner_text.strip }
-
-  table.css('.ContentPanel, .AlternateContentPanel').each do |tr|
-    da_item = tr.css('td').collect { |td| td.inner_text.strip }
+  scraper.extract_table_data_and_urls(table).each do |row|
+    data = scraper.extract_index_data(row)
     record = {
-      'council_reference' => da_item[headers.index('Application Number')],
+      'council_reference' => data[:council_reference],
       # There is a direct link but you need a session to access it :(
       'info_url' => url,
-      'description' => da_item[headers.index('Description')],
-      'date_received' => Date.strptime(da_item[headers.index('Date Lodged')], '%d/%m/%Y').to_s,
-      'address' => da_item[headers.index('Location')],
+      'description' => data[:description],
+      'date_received' => data[:date_received],
+      'address' => data[:address],
       'date_scraped' => Date.today.to_s
     }
-    ScraperWiki.save_sqlite(['council_reference'], record)
+    EpathwayScraper.save(record)
   end
 
   if summary_page.at('#ctl00_MainBodyContent_mPagingControl_nextPageHyperLink')
