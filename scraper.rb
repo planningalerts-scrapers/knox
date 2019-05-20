@@ -2,6 +2,7 @@ require "epathway_scraper"
 
 base_url = "https://eservices.knox.vic.gov.au/ePathway/Production/Web/generalenquiry/"
 url = "#{base_url}enquirylists.aspx"
+info_url = "https://eservices.knox.vic.gov.au/ePathway/Production/Web/GeneralEnquiry/EnquiryLists.aspx?ModuleCode=LAP"
 
 scraper = EpathwayScraper::Scraper.new(
   "https://eservices.knox.vic.gov.au/ePathway/Production"
@@ -22,7 +23,7 @@ while summary_page
     record = {
       'council_reference' => data[:council_reference],
       # There is a direct link but you need a session to access it :(
-      'info_url' => url,
+      'info_url' => info_url,
       'description' => data[:description],
       'date_received' => data[:date_received],
       'address' => data[:address],
