@@ -37,20 +37,15 @@ while summary_page
   end
 end
 
-das = das_data.collect do |da_item|
-  page_info = {}
-  page_info['council_reference'] = da_item[headers.index('Application Number')]
-  # There is a direct link but you need a session to access it :(
-  page_info['info_url'] = url
-  page_info['description'] = da_item[headers.index('Description')]
-  page_info['date_received'] = Date.strptime(da_item[headers.index('Date Lodged')], '%d/%m/%Y').to_s
-  page_info['address'] = da_item[headers.index('Location')]
-  page_info['date_scraped'] = Date.today.to_s
-  
-  page_info
-end
-
-das.each do |record|
-
+das_data.each do |da_item|
+  record = {
+    'council_reference' => da_item[headers.index('Application Number')],
+    # There is a direct link but you need a session to access it :(
+    'info_url' => url,
+    'description' => da_item[headers.index('Description')],
+    'date_received' => Date.strptime(da_item[headers.index('Date Lodged')], '%d/%m/%Y').to_s,
+    'address' => da_item[headers.index('Location')],
+    'date_scraped' => Date.today.to_s
+  }
   ScraperWiki.save_sqlite(['council_reference'], record)
 end
