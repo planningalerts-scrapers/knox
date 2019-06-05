@@ -1,1 +1,1 @@
-Gets development applications for "Knox City Council.":https://eservices.knox.vic.gov.au/ePathway/Production/Web/generalenquiry/enquirylists.aspx
+This scraper has been merged in to https://github.com/planningalerts-scrapers/multiple_epathway_scraper
